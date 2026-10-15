@@ -1,0 +1,853 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<title>Hotel Ava Malate — NFC Exclusive Stay Promo</title>
+<meta name="description" content="Hotel Ava, Malate Manila. Tap your NFC card and get an exclusive stay promo. AI-smart booking, instant confirmation." />
+<meta name="theme-color" content="#82285f" />
+<link rel="icon" type="image/png" href="logo.png" />
+<!-- Open Graph: nice preview when the NFC link is shared -->
+<meta property="og:type" content="website" />
+<meta property="og:title" content="Hotel Ava Malate — Exclusive NFC Stay Promo" />
+<meta property="og:description" content="You tapped the card. Here's your exclusive promo for a stay at Hotel Ava, Malate, Manila." />
+<meta property="og:image" content="logo.png" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700;900&family=Playfair+Display:wght@500;700&display=swap" rel="stylesheet" />
+<style>
+  /* ============================================================
+     Hotel Ava — NFC promo landing page
+     Brand tokens copied from src/styles/index.css (Royal Plum).
+     Single file, no build step: works on GitHub Pages as-is.
+     ============================================================ */
+  :root {
+    --primary: #82285f;
+    --primary-active: #6b204f;
+    --secondary: #455d58;
+    --canvas: #FBF9F4;          /* warm off-white */
+    --ink: #2A2A28;
+    --body: #4A4A45;
+    --muted: #7A7A70;
+    --hairline: #E6E9EE;
+    --on-primary: #ffffff;
+    --radius-lg: 20px;
+    --radius-md: 14px;
+    --shadow-hover: 0 2px 6px rgba(0,0,0,0.04), 0 4px 8px rgba(0,0,0,0.1);
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: "Lato", -apple-system, system-ui, "Segoe UI", Roboto, sans-serif;
+    background: var(--canvas);
+    color: var(--body);
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .display { font-family: "Playfair Display", Georgia, serif; color: var(--ink); }
+
+  .wrap { max-width: 1000px; margin: 0 auto; padding: 0 20px; }
+
+  /* ── Header ─────────────────────────────────────── */
+  header {
+    position: sticky; top: 0; z-index: 20;
+    background: rgba(251,249,244,0.92);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--hairline);
+  }
+  .nav { display: flex; align-items: center; justify-content: space-between; height: 60px; }
+  .logo { display: flex; align-items: center; gap: 10px; font-weight: 900; color: var(--ink); text-decoration: none; }
+  .logo-mark {
+    width: 32px; height: 32px; border-radius: 8px; flex: 0 0 auto;
+    display: block; object-fit: contain;
+    /* Official Hotel Ava mark: white plate + plum glyph.
+       multiply melts the white plate into the warm canvas header (same trick as the main site header). */
+    mix-blend-mode: multiply;
+  }
+  .logo span small { display: block; font-size: 10px; font-weight: 700; color: var(--muted); letter-spacing: 2px; text-transform: uppercase; }
+  .nav-cta {
+    background: var(--primary); color: var(--on-primary);
+    padding: 9px 18px; border-radius: 999px; font-size: 13px; font-weight: 700;
+    text-decoration: none; transition: background .2s ease;
+  }
+  .nav-cta:hover { background: var(--primary-active); }
+
+  /* ── Hero ───────────────────────────────────────── */
+  .hero { padding: 56px 0 40px; text-align: center; }
+  .badge {
+    display: inline-flex; align-items: center; gap: 6px;
+    background: #fff; border: 1px solid var(--hairline); border-radius: 999px;
+    padding: 6px 14px; font-size: 12px; font-weight: 700; color: var(--primary);
+    letter-spacing: 1px; text-transform: uppercase;
+  }
+  .hero h1 { font-size: clamp(30px, 6vw, 48px); line-height: 1.15; margin: 18px 0 12px; }
+  .hero p.sub { font-size: clamp(15px, 2.4vw, 18px); max-width: 560px; margin: 0 auto; color: var(--body); }
+  .loc { display: inline-flex; align-items: center; gap: 6px; margin-top: 14px; font-size: 13px; font-weight: 700; color: var(--secondary); }
+
+  /* ── Promo code card (the point of the whole page) ── */
+  .promo-card {
+    max-width: 440px; margin: 32px auto 0; text-align: left;
+    background: #fff; border: 2px dashed var(--primary); border-radius: var(--radius-lg);
+    padding: 24px; box-shadow: var(--shadow-hover);
+  }
+  .promo-card .tag {
+    font-size: 11px; font-weight: 900; letter-spacing: 2px; text-transform: uppercase;
+    color: var(--primary); display: flex; align-items: center; gap: 6px;
+  }
+  .promo-code-row { display: flex; gap: 10px; margin: 12px 0 6px; }
+  .promo-code {
+    flex: 1; font-family: "Playfair Display", Georgia, serif; font-weight: 700;
+    font-size: clamp(22px, 5vw, 30px); letter-spacing: 2px; color: var(--ink);
+    background: var(--canvas); border: 1px solid var(--hairline); border-radius: var(--radius-md);
+    padding: 12px 16px; text-align: center; word-break: break-all;
+  }
+  .copy-btn {
+    align-self: stretch; min-width: 84px; border: none; cursor: pointer;
+    background: var(--secondary); color: var(--on-primary);
+    border-radius: var(--radius-md); font-weight: 700; font-size: 14px; padding: 0 16px;
+    transition: background .2s ease;
+  }
+  .copy-btn:hover { background: #38504b; }
+  .copy-btn.copied { background: #3D6B4F; }
+  .promo-note { font-size: 12px; color: var(--muted); margin-top: 8px; }
+
+  .btn-book {
+    display: flex; align-items: center; justify-content: center; gap: 8px;
+    width: 100%; margin-top: 18px; padding: 16px 20px;
+    background: var(--primary); color: var(--on-primary); text-decoration: none;
+    border-radius: 999px; font-weight: 900; font-size: 16px; letter-spacing: 0.3px;
+    transition: background .2s ease, transform .15s ease;
+  }
+  .btn-book:hover { background: var(--primary-active); transform: translateY(-1px); }
+
+  /* ── Capstone disclaimer banner (top of page) ───── */
+  .disclaimer {
+    background: #2A2A28; color: #F3EFE6;
+    font-size: 12px; text-align: center; padding: 10px 40px;
+    display: flex; align-items: center; justify-content: center; gap: 10px;
+    line-height: 1.45;
+  }
+  .disclaimer strong { color: #fff; letter-spacing: 0.4px; }
+  .disclaimer .dot {
+    flex: 0 0 auto; width: 8px; height: 8px; border-radius: 50%;
+    background: #E0B95C; box-shadow: 0 0 0 3px rgba(224,185,92,0.25);
+  }
+  .disclaimer button {
+    position: absolute; right: 10px; top: 50%; transform: translateY(-50%);
+    background: transparent; border: none; color: #C9C4BA; cursor: pointer;
+    font-size: 15px; line-height: 1; padding: 4px 8px;
+  }
+  .disclaimer button:hover { color: #fff; }
+  .disclaimer-wrap { position: relative; }
+  .disclaimer-wrap.hide { display: none; }
+  @media (max-width: 560px) {
+    .disclaimer { padding: 10px 34px 10px 14px; text-align: left; justify-content: flex-start; }
+  }
+
+  /* ── Hero stats strip ───────────────────────────── */
+  .stats {
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px;
+    max-width: 560px; margin: 28px auto 0;
+    background: var(--hairline); border: 1px solid var(--hairline);
+    border-radius: var(--radius-md); overflow: hidden;
+  }
+  .stats .cell { background: #fff; padding: 14px 8px; text-align: center; }
+  .stats .cell b { display: block; font-family: "Playfair Display", Georgia, serif; font-size: 22px; color: var(--primary); }
+  .stats .cell span { font-size: 11px; color: var(--muted); letter-spacing: 0.6px; text-transform: uppercase; }
+
+  /* ── Location / neighborhood ────────────────────── */
+  .loc-panel {
+    display: grid; gap: 22px; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    background: #fff; border: 1px solid var(--hairline); border-radius: var(--radius-lg);
+    overflow: hidden; box-shadow: var(--shadow-hover);
+  }
+  /* Live Google Maps embed (same query as src/components/home/LocationSection.tsx) */
+  .loc-map { position: relative; min-height: 320px; background: #EDEFF2; }
+  .loc-map iframe { display: block; width: 100%; height: 100%; min-height: 320px; border: 0; }
+  .map-link {
+    position: absolute; right: 12px; bottom: 12px;
+    background: #fff; color: var(--primary); text-decoration: none;
+    padding: 9px 16px; border-radius: 999px; font-size: 13px; font-weight: 900;
+    box-shadow: var(--shadow-hover); display: inline-flex; align-items: center; gap: 6px;
+    transition: transform .15s ease;
+  }
+  .map-link:hover { transform: translateY(-1px); }
+  .loc-info { padding: 24px 24px 26px; }
+  .loc-info h3 { font-family: "Playfair Display", Georgia, serif; font-size: 19px; color: var(--ink); margin-bottom: 12px; }
+  .loc-fact { display: flex; gap: 11px; align-items: flex-start; padding: 9px 0; border-bottom: 1px dashed var(--hairline); }
+  .loc-fact:last-child { border-bottom: none; }
+  .loc-fact .ico { flex: 0 0 auto; color: var(--primary); margin-top: 2px; }
+  .loc-fact b { display: block; font-size: 13.5px; color: var(--ink); }
+  .loc-fact span { font-size: 12.5px; color: var(--muted); }
+
+  /* Nearby place photo cards (images copied to nfc-promo/places/) */
+  .places { display: grid; gap: 14px; grid-template-columns: repeat(auto-fill, minmax(178px, 1fr)); }
+  .place {
+    display: block; background: #fff; border: 1px solid var(--hairline);
+    border-radius: var(--radius-md); overflow: hidden; text-decoration: none;
+    transition: border-color .18s ease, transform .18s ease, box-shadow .18s ease;
+  }
+  .place:hover { border-color: var(--primary); transform: translateY(-2px); box-shadow: var(--shadow-hover); }
+  .place .thumb { display: block; position: relative; aspect-ratio: 4 / 3; background: #EDEFF2; overflow: hidden; }
+  .place .thumb img {
+    width: 100%; height: 100%; object-fit: cover; display: block;
+    transition: transform .35s ease;
+  }
+  .place:hover .thumb img { transform: scale(1.06); }
+  .place .km {
+    position: absolute; left: 8px; bottom: 8px;
+    background: rgba(42,42,40,0.8); color: #fff; font-size: 11px; font-weight: 700;
+    padding: 3px 9px; border-radius: 999px; backdrop-filter: blur(4px);
+    display: inline-flex; align-items: center; gap: 4px;
+  }
+  .place .txt { display: block; padding: 10px 12px 12px; }
+  .place .txt b { display: block; font-size: 13px; color: var(--ink); line-height: 1.3; }
+  .place .txt span { display: block; font-size: 11.5px; color: var(--muted); margin-top: 3px; }
+  .place:hover .txt b { color: var(--primary); }
+
+  .place-grid { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; margin-top: 6px; }
+  .cat-pill {
+    display: inline-flex; align-items: center; gap: 6px;
+    background: #fff; border: 1px solid var(--hairline); border-radius: 999px;
+    padding: 6px 13px; font-size: 12px; font-weight: 700; color: var(--secondary);
+  }
+  .cat-pill b { color: var(--primary); font-weight: 900; }
+
+  /* ── Steps ──────────────────────────────────────── */
+  section { padding: 44px 0; }
+  .sec-title { font-size: clamp(22px, 4vw, 30px); text-align: center; margin-bottom: 8px; }
+  .sec-sub { text-align: center; color: var(--muted); font-size: 14px; margin-bottom: 28px; }
+  .steps { display: grid; gap: 16px; grid-template-columns: 1fr; }
+  .step {
+    position: relative; background: #fff; border: 1px solid var(--hairline);
+    border-radius: var(--radius-md); padding: 18px;
+    transition: opacity .55s ease, transform .55s ease, box-shadow .2s ease;
+  }
+  .step:hover { box-shadow: var(--shadow-hover); transform: translateY(-2px); }
+  /* Scroll reveal. Scoped to `.js` so a no-JS / failed-JS page still shows every card. */
+  .js .step:not(.in) { opacity: 0; transform: translateY(18px); transition-delay: var(--d, 0s); }
+  .step .n {
+    width: 30px; height: 30px; border-radius: 50%; display: grid; place-items: center;
+    background: var(--primary); color: var(--on-primary); font-weight: 900; font-size: 14px; margin-bottom: 10px;
+  }
+  .step h3 { font-size: 15px; color: var(--ink); margin-bottom: 4px; }
+  .step p { font-size: 13px; color: var(--muted); }
+
+  /* ── Step illustrations — inline SVG, animated with CSS only ── */
+  .illo-wrap {
+    margin: -2px 0 14px; padding: 6px; background: var(--canvas);
+    border: 1px solid var(--hairline); border-radius: 12px; overflow: hidden;
+  }
+  .illo { display: block; width: 100%; height: auto; --dur: 3.6s; }
+  .illo text { stroke: none; font-family: "Lato", system-ui, sans-serif; }
+  .illo .s-primary { stroke: var(--primary); }
+  .illo .s-secondary { stroke: var(--secondary); }
+  .illo .s-hair { stroke: var(--hairline); }
+  .illo .f-primary { fill: var(--primary); }
+  .illo .f-secondary { fill: var(--secondary); }
+  .illo .f-hair { fill: var(--hairline); }
+  .illo .f-muted { fill: var(--muted); }
+  .illo .f-white { fill: #fff; }
+  .illo .f-canvas { fill: var(--canvas); }
+  .illo .ico-copy, .illo .ripple, .illo .badge { transform-box: fill-box; transform-origin: center; }
+
+  /* 1 · Tap — starts docked at the card (good first frame), pulls away, then taps back in
+     with a tight ripple while the screen lights up. All delays 0 so the scene stays in sync. */
+  .illo-tap .phone { animation: tap-phone var(--dur) ease-in-out infinite; }
+  @keyframes tap-phone {
+    0%, 12% { transform: translateX(0); }
+    30%, 46% { transform: translateX(30px); }
+    62%, 100% { transform: translateX(0); }
+  }
+  .illo-tap .w1 { opacity: .95; animation: tap-w1 var(--dur) ease-out infinite; }
+  .illo-tap .w2 { opacity: .7;  animation: tap-w2 var(--dur) ease-out infinite; }
+  .illo-tap .w3 { opacity: .45; animation: tap-w3 var(--dur) ease-out infinite; }
+  @keyframes tap-w1 { 0%,60%{opacity:0;transform:translateX(-4px)} 68%{opacity:.95;transform:translateX(0)} 82%,100%{opacity:0;transform:translateX(7px)} }
+  @keyframes tap-w2 { 0%,64%{opacity:0;transform:translateX(-4px)} 72%{opacity:.7;transform:translateX(0)}  86%,100%{opacity:0;transform:translateX(9px)} }
+  @keyframes tap-w3 { 0%,68%{opacity:0;transform:translateX(-4px)} 76%{opacity:.45;transform:translateX(0)} 90%,100%{opacity:0;transform:translateX(11px)} }
+  .illo-tap .scr-line { animation: tap-scr var(--dur) linear infinite; }
+  @keyframes tap-scr {
+    0%, 56% { stroke: var(--hairline); }
+    64%, 82% { stroke: var(--primary); }
+    90%, 100% { stroke: var(--hairline); }
+  }
+
+  /* 2 · Copy — tap ripple, pill flips plum→teal, check draws itself */
+  .illo-copy .ripple { opacity: 0; animation: cpy-ripple var(--dur) ease-out infinite; }
+  @keyframes cpy-ripple {
+    0%, 5% { opacity: 0; transform: scale(.45); }
+    13% { opacity: .4; transform: scale(1); }
+    26%, 100% { opacity: 0; transform: scale(1.5); }
+  }
+  .illo-copy .pill { animation: cpy-pill var(--dur) linear infinite; }
+  @keyframes cpy-pill {
+    0%, 20% { fill: var(--primary); }
+    28%, 66% { fill: var(--secondary); }
+    76%, 100% { fill: var(--primary); }
+  }
+  .illo-copy .ico-copy { animation: cpy-icon var(--dur) ease-in infinite; }
+  @keyframes cpy-icon {
+    0%, 20% { opacity: 1; transform: scale(1); }
+    28%, 100% { opacity: 0; transform: scale(.55); }
+  }
+  .illo-copy .ico-check { stroke-dasharray: 35; stroke-dashoffset: 35; animation: cpy-check var(--dur) ease-in-out infinite; }
+  @keyframes cpy-check {
+    0%, 26% { stroke-dashoffset: 35; }
+    38%, 68% { stroke-dashoffset: 0; }
+    80%, 100% { stroke-dashoffset: 35; }
+  }
+  .illo-copy .code { animation: cpy-code var(--dur) ease-in-out infinite; }
+  @keyframes cpy-code { 0%, 18% { opacity: .5; } 28%, 70% { opacity: 1; } 80%, 100% { opacity: .5; } }
+
+  /* 3 · Save — price struck through, new price rises, -10% badge pops (twice), tick draws */
+  .illo-save .strike { stroke-dasharray: 56; stroke-dashoffset: 0; animation: save-strike var(--dur) ease-in-out infinite; }
+  @keyframes save-strike { 0%, 8% { stroke-dashoffset: 56; } 20%, 100% { stroke-dashoffset: 0; } }
+  .illo-save .new-price { animation: save-new var(--dur) ease-out infinite; }
+  @keyframes save-new { 0%, 16% { opacity: 0; transform: translateY(7px); } 28%, 100% { opacity: 1; transform: translateY(0); } }
+  .illo-save .badge { opacity: 1; animation: save-badge var(--dur) cubic-bezier(.34,1.56,.64,1) infinite; }
+  @keyframes save-badge {
+    0%, 32% { opacity: 0; transform: scale(.3) rotate(-14deg); }
+    44% { opacity: 1; transform: scale(1.14) rotate(4deg); }
+    50% { opacity: 1; transform: scale(.96) rotate(-1deg); }
+    56%, 76% { opacity: 1; transform: scale(1) rotate(0deg); }
+    86%, 100% { opacity: 0; transform: scale(.3) rotate(-14deg); }
+  }
+  .illo-save .tick { stroke-dasharray: 39; stroke-dashoffset: 0; animation: save-tick var(--dur) ease-in-out infinite; }
+  @keyframes save-tick { 0%, 52% { stroke-dashoffset: 39; } 64%, 78% { stroke-dashoffset: 0; } 88%, 100% { stroke-dashoffset: 39; } }
+
+  /* Journey connectors — always drifting, so the section feels alive even between scene loops.
+     Mobile stacks vertically (down chevron), desktop flows left→right. */
+  .step:not(:last-child)::after {
+    content: ""; position: absolute; left: 50%; bottom: -15px; margin-left: -6.5px;
+    width: 13px; height: 13px;
+    border-right: 2.5px solid var(--primary); border-bottom: 2.5px solid var(--primary);
+    transform: rotate(45deg); opacity: .4; pointer-events: none;
+    animation: chev-down 2.2s ease-in-out infinite;
+  }
+  @keyframes chev-down {
+    0%, 100% { opacity: .25; transform: rotate(45deg) translate(0, 0); }
+    50% { opacity: .7; transform: rotate(45deg) translate(3px, 3px); }
+  }
+  @keyframes chev-right {
+    0%, 100% { opacity: .25; transform: rotate(45deg) translate(0, 0); }
+    50% { opacity: .7; transform: rotate(45deg) translate(3px, -3px); }
+  }
+
+  /* Desktop: 3-up with right-pointing chevrons so it reads as a left→right journey */
+  @media (min-width: 780px) {
+    .steps { grid-template-columns: repeat(3, 1fr); gap: 32px; }
+    .step:not(:last-child)::after {
+      left: auto; bottom: auto; margin-left: 0;
+      top: 50%; right: -23px; margin-top: -6.5px;
+      border-top: 2.5px solid var(--primary); border-right: 2.5px solid var(--primary); border-bottom: none;
+      animation-name: chev-right;
+    }
+    .step:nth-child(2):not(:last-child)::after { animation-delay: .4s; }
+  }
+
+  /* ── Rooms ──────────────────────────────────────── */
+  .rooms { display: grid; gap: 20px; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); }
+  .room {
+    background: #fff; border: 1px solid var(--hairline); border-radius: var(--radius-lg);
+    overflow: hidden; transition: box-shadow .2s ease, transform .2s ease;
+  }
+  .room:hover { box-shadow: var(--shadow-hover); transform: translateY(-2px); }
+  .room img { width: 100%; height: 170px; object-fit: cover; display: block; background: #EDEFF2; }
+  .room .body { padding: 16px 18px 20px; }
+  .room h3 { font-size: 17px; color: var(--ink); margin-bottom: 4px; }
+  .room p { font-size: 12.5px; color: var(--muted); min-height: 54px; }
+  .room .price { margin-top: 10px; font-size: 15px; font-weight: 900; color: var(--primary); }
+  .room .price small { font-weight: 400; color: var(--muted); font-size: 12px; }
+
+  /* ── Why / footer ───────────────────────────────── */
+  .why { display: grid; gap: 16px; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); }
+  .why .item { display: flex; gap: 12px; align-items: flex-start; }
+  .why .ico {
+    flex: 0 0 auto; width: 38px; height: 38px; border-radius: 10px;
+    background: #fff; border: 1px solid var(--hairline); display: grid; place-items: center; color: var(--primary);
+  }
+  .why h3 { font-size: 14.5px; color: var(--ink); margin-bottom: 2px; }
+  .why p { font-size: 13px; color: var(--muted); }
+
+  footer { border-top: 1px solid var(--hairline); padding: 28px 0 40px; text-align: center; font-size: 12.5px; color: var(--muted); }
+  footer a { color: var(--primary); font-weight: 700; text-decoration: none; }
+  footer a:hover { text-decoration: underline; }
+
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    .btn-book:hover, .room:hover, .step:hover { transform: none; }
+    /* Show the cards immediately and freeze every illustration on its resting frame.
+       Base CSS already reads as a complete story, so no extra state fixes are needed. */
+    .js .step:not(.in) { opacity: 1; transform: none; transition-delay: 0s; }
+    .illo, .illo * { animation: none !important; }
+    .step:not(:last-child)::after { animation: none; opacity: .4; }
+  }
+</style>
+<script>document.documentElement.classList.add("js");</script>
+</head>
+<body>
+
+<!-- Capstone disclaimer — please keep this visible -->
+<div class="disclaimer-wrap" id="disclaimerWrap">
+  <div class="disclaimer" role="note">
+    <span class="dot" aria-hidden="true"></span>
+    <span><strong>NOTICE:</strong> This is <strong>not</strong> the real Hotel Ava Malate website — it's a student capstone demo (NFC promo prototype) for our Smart Hotel Reservation &amp; Recommendation System. No real bookings or payments happen here.</span>
+    <button type="button" id="dismissDisclaimer" aria-label="Dismiss notice">✕</button>
+  </div>
+</div>
+
+<header>
+  <div class="wrap nav">
+    <a class="logo" href="#top" aria-label="Hotel Ava home">
+      <img class="logo-mark" src="logo.png" alt="" width="32" height="32" />
+      <span>Hotel Ava<small>Malate · Manila</small></span>
+    </a>
+    <a class="nav-cta" href="#" data-book-link>Book Now</a>
+  </div>
+</header>
+
+<main id="top">
+  <!-- Hero + promo code -->
+  <section class="hero">
+    <div class="wrap">
+      <span class="badge">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M5 12a7 7 0 0 1 14 0"/><path d="M8.5 12a3.5 3.5 0 0 1 7 0"/><circle cx="12" cy="12" r="1" fill="currentColor"/></svg>
+        NFC Guest Exclusive
+      </span>
+      <h1 class="display">You tapped in.<br />Your stay just got better.</h1>
+      <p class="sub">Welcome to Hotel Ava — a smart, AI-powered boutique hotel in the heart of Malate, Manila. Use your exclusive NFC promo when you book.</p>
+      <span class="loc">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M12 21s-6-5.1-6-10a6 6 0 1 1 12 0c0 4.9-6 10-6 10Z"/><circle cx="12" cy="11" r="2"/></svg>
+        Malate, Manila · Near Roxas Blvd &amp; MOA
+      </span>
+
+      <div class="promo-card">
+        <p class="tag">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="m9 14-4-4 4-4"/><path d="M5 10h11a4 4 0 0 1 0 8h-1"/></svg>
+          Your NFC Promo Code
+        </p>
+        <div class="promo-code-row">
+          <span class="promo-code" id="promoCode" aria-label="Promo code">AVANFC10</span>
+          <button class="copy-btn" id="copyBtn" type="button" aria-live="polite">Copy</button>
+        </div>
+        <p class="promo-note" id="promoNote">Apply this code at checkout. One code per booking.</p>
+        <a class="btn-book" href="#" data-book-link>
+          Book Now with Promo
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg>
+        </a>
+      </div>
+
+      <div class="stats" aria-label="Hotel Ava at a glance">
+        <div class="cell"><b>5</b><span>Room types</span></div>
+        <div class="cell"><b>13</b><span>Nearby spots</span></div>
+        <div class="cell"><b>24/7</b><span>Front desk</span></div>
+      </div>
+    </div>
+  </section>
+  <!-- How it works -->
+  <section>
+    <div class="wrap">
+      <h2 class="sec-title display">How it works</h2>
+      <p class="sec-sub">Three taps from your card to a confirmed stay.</p>
+      <div class="steps">
+        <!-- 1 · Tap -->
+        <div class="step">
+          <div class="illo-wrap">
+            <svg class="illo illo-tap" viewBox="0 0 200 120" role="img" aria-label="Animation: a phone is held up to the Hotel Ava NFC card and the card sends out a signal">
+              <rect x="8" y="36" width="66" height="48" rx="8" class="f-white s-primary" stroke-width="2.5"/>
+              <path d="M30 50 L41 70 L52 50" class="s-primary" fill="none" stroke-width="3"/>
+              <rect x="28" y="75" width="26" height="3" rx="1.5" class="f-hair"/>
+              <g fill="none" stroke-width="2.5">
+                <path class="w1 s-primary" d="M80 48 Q90 60 80 72"/>
+                <path class="w2 s-primary" d="M86 40 Q100 60 86 80"/>
+                <path class="w3 s-primary" d="M92 32 Q110 60 92 88"/>
+              </g>
+              <g class="phone">
+                <rect x="106" y="22" width="40" height="74" rx="9" class="f-white s-secondary" stroke-width="2.5"/>
+                <rect x="113" y="34" width="26" height="34" rx="4" class="f-canvas"/>
+                <path class="scr-line s-hair" d="M119 46 H137" fill="none" stroke-width="2.5"/>
+                <path class="scr-line s-hair" d="M119 54 H131" fill="none" stroke-width="2.5"/>
+                <circle cx="126" cy="82" r="3" class="f-hair"/>
+              </g>
+            </svg>
+          </div>
+          <div class="n">1</div>
+          <h3>Tap your NFC card</h3>
+          <p>Hold any NFC phone against the card — no app to install. This page opens instantly.</p>
+        </div>
+
+        <!-- 2 · Copy -->
+        <div class="step">
+          <div class="illo-wrap">
+            <svg class="illo illo-copy" viewBox="0 0 200 120" role="img" aria-label="Animation: the promo code AVANFC10 is tapped and copies, turning into a green check">
+              <rect x="22" y="26" width="156" height="70" rx="12" class="f-white s-hair" stroke-width="2"/>
+              <text x="36" y="47" class="f-muted" font-size="8.5" font-weight="900" letter-spacing="1.4">PROMO CODE</text>
+              <text x="36" y="68" class="f-primary code" font-size="14.5" font-weight="900" letter-spacing="0.5">AVANFC10</text>
+              <rect x="36" y="77" width="60" height="3" rx="1.5" class="f-hair"/>
+              <circle cx="142" cy="61" r="19" class="ripple f-primary"/>
+              <rect class="pill" x="120" y="47" width="44" height="28" rx="14" fill="#82285f"/>
+              <g class="ico-copy">
+                <rect x="133" y="54" width="11" height="13" rx="3" fill="none" stroke="#fff" stroke-width="1.8" opacity="0.55"/>
+                <rect x="138" y="50" width="11" height="13" rx="3" fill="none" stroke="#fff" stroke-width="1.8"/>
+              </g>
+              <path class="ico-check" d="M130 61 L137 68 L153 52" fill="none" stroke="#fff" stroke-width="3.2"/>
+            </svg>
+          </div>
+          <div class="n">2</div>
+          <h3>Copy the promo code</h3>
+          <p>Tap <strong>Copy</strong> and it's ready to paste on the booking page.</p>
+        </div>
+
+        <!-- 3 · Save -->
+        <div class="step">
+          <div class="illo-wrap">
+            <svg class="illo illo-save" viewBox="0 0 200 120" role="img" aria-label="Animation: the old room price is struck through, the discounted price appears, and a minus 10 percent badge pops in">
+              <rect x="22" y="20" width="112" height="80" rx="12" class="f-white s-hair" stroke-width="2"/>
+              <text x="38" y="42" class="f-muted" font-size="8.5" font-weight="900" letter-spacing="1.4">DELUXE ROOM</text>
+              <text x="38" y="65" class="f-muted" font-size="14.5" font-weight="700">&#8369;2,500</text>
+              <path class="strike s-muted" d="M36 60 H90" fill="none" stroke-width="2"/>
+              <text x="38" y="87" class="f-primary new-price" font-size="17" font-weight="900">&#8369;2,250</text>
+              <g class="badge">
+                <rect x="118" y="42" width="60" height="28" rx="14" class="f-secondary"/>
+                <text x="148" y="60.5" fill="#fff" font-size="13" font-weight="900" text-anchor="middle">-10%</text>
+              </g>
+              <path class="tick s-secondary" d="M120 86 L128 94 L148 76" fill="none" stroke-width="3"/>
+            </svg>
+          </div>
+          <div class="n">3</div>
+          <h3>Book &amp; save</h3>
+          <p>Pick your room and dates on Hotel Ava. Your discount applies automatically at checkout.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Rooms — data pulled from the live /api/rooms/public (hotelava.vercel.app) -->
+  <section>
+    <div class="wrap">
+      <h2 class="sec-title display">Stay at Hotel Ava</h2>
+      <p class="sec-sub">Five room types, all with A/C, free WiFi, and hot &amp; cold shower — rates start at ₱1,500.</p>
+      <div class="rooms">
+        <article class="room">
+          <img src="https://voabhnoephsgdkklabgo.supabase.co/storage/v1/object/public/room-images/rooms/96c21285b34945f3897d77ffbbc58869.jpg" alt="Hotel Ava Standard Room" loading="lazy" />
+          <div class="body">
+            <h3>Standard Room</h3>
+            <p>Mid-century modern room with cable TV, parking, and a work desk. Ideal for business travelers and couples.</p>
+            <div class="price">from ₱1,500 <small>/ night</small></div>
+          </div>
+        </article>
+        <article class="room">
+          <img src="https://voabhnoephsgdkklabgo.supabase.co/storage/v1/object/public/room-images/rooms/1c15b4854be140feae1dfde844ff0a0b.png" alt="Hotel Ava Deluxe Room" loading="lazy" />
+          <div class="body">
+            <h3>Deluxe Room</h3>
+            <p>Floating platform bed, Smart TV, private garage, and pet-friendly. A cozy step up for two.</p>
+            <div class="price">from ₱2,500 <small>/ night</small></div>
+          </div>
+        </article>
+        <article class="room">
+          <img src="https://voabhnoephsgdkklabgo.supabase.co/storage/v1/object/public/room-images/rooms/6483c14f66294669b444c8993597539f.png" alt="Hotel Ava Junior Suite" loading="lazy" />
+          <div class="body">
+            <h3>Junior Suite</h3>
+            <p>Rustic cabin-style suite with king bed, bathtub, and KTV. Sleeps up to 3 adults.</p>
+            <div class="price">from ₱2,599 <small>/ night</small></div>
+          </div>
+        </article>
+        <article class="room">
+          <img src="https://voabhnoephsgdkklabgo.supabase.co/storage/v1/object/public/room-images/rooms/565971b6f42f41e689be7d42589b43a4.jpg" alt="Hotel Ava Executive Deluxe" loading="lazy" />
+          <div class="body">
+            <h3>Executive Deluxe</h3>
+            <p>Deep blue and gold designer room with king bed, bathtub, and private garage.</p>
+            <div class="price">from ₱2,900 <small>/ night</small></div>
+          </div>
+        </article>
+        <article class="room">
+          <img src="https://voabhnoephsgdkklabgo.supabase.co/storage/v1/object/public/room-images/rooms/d7dcc4c709264de4abaca2137478447a.png" alt="Hotel Ava Superior Suite" loading="lazy" />
+          <div class="body">
+            <h3>Superior Suite</h3>
+            <p>Our flagship themed suite — jacuzzi, KTV, and smart TV. Great for celebrations (up to 4 adults).</p>
+            <div class="price">from ₱5,000 <small>/ night</small></div>
+          </div>
+        </article>
+      </div>
+      <p style="text-align:center;font-size:12px;color:var(--muted);margin-top:16px">
+        Rates per night, sourced live from our booking system · 12-hour and 24-hour stay options available
+      </p>
+    </div>
+  </section>
+  <!-- Location + neighborhood -->
+  <section id="location">
+    <div class="wrap">
+      <h2 class="sec-title display">Right in the heart of Malate</h2>
+      <p class="sec-sub">2184 Madre Ignacia St. cor. Quirino Ave. — walk to Manila Bay, LRT, malls, and heritage spots.</p>
+
+      <div class="loc-panel">
+        <div class="loc-map">
+          <iframe
+            src="https://maps.google.com/maps?q=2184+Madre+Ignacia+Street+Malate+Manila+Philippines&t=&z=15&ie=UTF8&iwloc=&output=embed"
+            width="100%"
+            height="100%"
+            style="border:0"
+            allowfullscreen=""
+            loading="lazy"
+            referrerpolicy="no-referrer-when-downgrade"
+            title="Hotel Ava location — 2184 Madre Ignacia St., Malate, Manila"
+          ></iframe>
+          <a class="map-link" href="https://www.google.com/maps/search/?api=1&query=2184+Madre+Ignacia+Street+Malate+Manila+Philippines" target="_blank" rel="noopener">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M12 21s-6-5.1-6-10a6 6 0 1 1 12 0c0 4.9-6 10-6 10Z"/><circle cx="12" cy="11" r="2"/></svg>
+            Open in Google Maps
+          </a>
+        </div>
+
+        <div class="loc-info">
+          <h3>Why guests pick this spot</h3>
+          <div class="loc-fact">
+            <span class="ico"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M12 21s-6-5.1-6-10a6 6 0 1 1 12 0c0 4.9-6 10-6 10Z"/><circle cx="12" cy="11" r="2"/></svg></span>
+            <div><b>Walk to Manila Bay sunset</b><span>Baywalk is just 0.9 km away — evening stroll along Roxas Blvd.</span></div>
+          </div>
+          <div class="loc-fact">
+            <span class="ico"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><rect x="4" y="3" width="16" height="14" rx="2"/><path d="M4 10h16M8 21l1.5-4M16 21l-1.5-4"/><circle cx="8.5" cy="14" r="1" fill="currentColor"/><circle cx="15.5" cy="14" r="1" fill="currentColor"/></svg></span>
+            <div><b>LRT-1 access</b><span>Gil Puyat station is 1.6 km — easy rides to Baclaran and Divisoria.</span></div>
+          </div>
+          <div class="loc-fact">
+            <span class="ico"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M3 21h18M5 21V7l7-4 7 4v14M9 21v-6h6v6"/></svg></span>
+            <div><b>Universities &amp; hospitals close by</b><span>Minutes from DLSU-Manila, UST, and Philippine General Hospital.</span></div>
+          </div>
+          <div class="loc-fact">
+            <span class="ico"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M12 2v4M12 18v4M4.9 4.9l2.9 2.9M16.2 16.2l2.9 2.9M2 12h4M18 12h4M4.9 19.1l2.9-2.9M16.2 7.8l2.9-2.9"/></svg></span>
+            <div><b>24/7 front desk</b><span>Malate never sleeps — check in any hour of the night.</span></div>
+          </div>
+        </div>
+      </div>
+      <h3 class="sec-title display" style="margin-top:44px;font-size:clamp(19px,3.4vw,25px)">Explore nearby</h3>
+      <p class="sec-sub">13 spots within reach — tap any card for directions.</p>
+
+      <div class="places">
+        <a class="place" href="https://www.google.com/maps/search/?api=1&query=Manila+Baywalk+Roxas+Boulevard" target="_blank" rel="noopener">
+          <span class="thumb"><img src="places/baywalk.jpg" alt="Manila Baywalk along Roxas Boulevard" loading="lazy" /><span class="km">0.9 km · 11 min walk</span></span>
+          <span class="txt"><b>Manila Baywalk</b><span>Roxas Blvd. · sunset by the bay</span></span>
+        </a>
+        <a class="place" href="https://www.google.com/maps/search/?api=1&query=De+La+Salle+University+Manila" target="_blank" rel="noopener">
+          <span class="thumb"><img src="places/dlsu-manila.jpg" alt="De La Salle University Manila" loading="lazy" /><span class="km">1.0 km · 13 min walk</span></span>
+          <span class="txt"><b>De La Salle University</b><span>Taft Avenue · Manila campus</span></span>
+        </a>
+        <a class="place" href="https://www.google.com/maps/search/?api=1&query=Malate+Church+Our+Lady+of+Remedies+Manila" target="_blank" rel="noopener">
+          <span class="thumb"><img src="places/malate-church.jpg" alt="Malate Church — Our Lady of Remedies" loading="lazy" /><span class="km">1.2 km · 15 min walk</span></span>
+          <span class="txt"><b>Malate Church</b><span>Our Lady of Remedies parish</span></span>
+        </a>
+        <a class="place" href="https://www.google.com/maps/search/?api=1&query=Robinsons+Place+Manila" target="_blank" rel="noopener">
+          <span class="thumb"><img src="places/robinsons.jpg" alt="Robinsons Place Manila mall" loading="lazy" /><span class="km">1.3 km · 16 min walk</span></span>
+          <span class="txt"><b>Robinsons Place Manila</b><span>Mall · Pedro Gil St.</span></span>
+        </a>
+        <a class="place" href="https://www.google.com/maps/search/?api=1&query=Manila+Zoological+Garden" target="_blank" rel="noopener">
+          <span class="thumb"><img src="places/manila-zoo.jpg" alt="Manila Zoological Garden" loading="lazy" /><span class="km">1.4 km · 18 min walk</span></span>
+          <span class="txt"><b>Manila Zoo</b><span>Zoological garden · Adriatico St.</span></span>
+        </a>
+        <a class="place" href="https://www.google.com/maps/search/?api=1&query=Gil+Puyat+LRT+Station+Manila" target="_blank" rel="noopener">
+          <span class="thumb"><img src="places/gil-puyat.jpg" alt="Gil Puyat LRT-1 Station" loading="lazy" /><span class="km">1.6 km · 6 min drive</span></span>
+          <span class="txt"><b>Gil Puyat LRT-1</b><span>Train station · south Manila</span></span>
+        </a>
+        <a class="place" href="https://www.google.com/maps/search/?api=1&query=Star+City+Manila" target="_blank" rel="noopener">
+          <span class="thumb"><img src="places/star-city.jpg" alt="Star City amusement park" loading="lazy" /><span class="km">2.6 km · 10 min drive</span></span>
+          <span class="txt"><b>Star City</b><span>Amusement park · CCP Complex</span></span>
+        </a>
+        <a class="place" href="https://www.google.com/maps/search/?api=1&query=Rizal+Park+Luneta+Manila" target="_blank" rel="noopener">
+          <span class="thumb"><img src="places/rizal-park.jpg" alt="Rizal Park (Luneta)" loading="lazy" /><span class="km">3.2 km · 13 min drive</span></span>
+          <span class="txt"><b>Rizal Park (Luneta)</b><span>National park · Rizal Monument</span></span>
+        </a>
+        <a class="place" href="https://www.google.com/maps/search/?api=1&query=Mall+of+Asia+Pasay" target="_blank" rel="noopener">
+          <span class="thumb"><img src="places/mall-of-asia.jpg" alt="Mall of Asia" loading="lazy" /><span class="km">3.5 km · 14 min drive</span></span>
+          <span class="txt"><b>Mall of Asia (MOA)</b><span>Mall · Bay City, Pasay</span></span>
+        </a>
+        <a class="place" href="https://www.google.com/maps/search/?api=1&query=National+Museum+of+the+Philippines+Manila" target="_blank" rel="noopener">
+          <span class="thumb"><img src="places/national-museum.jpg" alt="National Museum Complex" loading="lazy" /><span class="km">3.8 km · 15 min drive</span></span>
+          <span class="txt"><b>National Museum Complex</b><span>Free admission · Rizal Park</span></span>
+        </a>
+        <a class="place" href="https://www.google.com/maps/search/?api=1&query=Manila+Ocean+Park" target="_blank" rel="noopener">
+          <span class="thumb"><img src="places/ocean-park.jpg" alt="Manila Ocean Park" loading="lazy" /><span class="km">4.3 km · 17 min drive</span></span>
+          <span class="txt"><b>Manila Ocean Park</b><span>Aquarium · Manila Bay</span></span>
+        </a>
+        <a class="place" href="https://www.google.com/maps/search/?api=1&query=Intramuros+Manila" target="_blank" rel="noopener">
+          <span class="thumb"><img src="places/intramuros.jpg" alt="Intramuros walled city" loading="lazy" /><span class="km">4.8 km · 19 min drive</span></span>
+          <span class="txt"><b>Intramuros</b><span>Walled city · Manila Cathedral</span></span>
+        </a>
+        <a class="place" href="https://www.google.com/maps/search/?api=1&query=NAIA+Terminal+1" target="_blank" rel="noopener">
+          <span class="thumb"><img src="places/naia.jpg" alt="NAIA Terminal 1" loading="lazy" /><span class="km">6.5 km · 26 min drive</span></span>
+          <span class="txt"><b>NAIA Terminal 1</b><span>International airport</span></span>
+        </a>
+      </div>
+
+      <div class="place-grid" style="margin-top:20px">
+        <span class="cat-pill"><b>2</b> Landmarks</span>
+        <span class="cat-pill"><b>2</b> Shopping</span>
+        <span class="cat-pill"><b>4</b> Attractions</span>
+        <span class="cat-pill"><b>2</b> Transport</span>
+        <span class="cat-pill"><b>1</b> Nature</span>
+        <span class="cat-pill">All within <b>6.5 km</b></span>
+      </div>
+
+
+    </div>
+  </section>
+
+  <!-- Why book -->
+  <section>
+    <div class="wrap">
+      <h2 class="sec-title display">Why Hotel Ava?</h2>
+      <p class="sec-sub">A smart hotel booking system built for real guests.</p>
+      <div class="why">
+        <div class="item">
+          <div class="ico">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M12 2v4"/><path d="M12 18v4"/><path d="m4.9 4.9 2.9 2.9"/><path d="m16.2 16.2 2.9 2.9"/><path d="M2 12h4"/><path d="M18 12h4"/><path d="m4.9 19.1 2.9-2.9"/><path d="m16.2 7.8 2.9-2.9"/></svg>
+          </div>
+          <div>
+            <h3>AI-suggested discounts</h3>
+            <p>Smart promos surface the best available rate for your dates.</p>
+          </div>
+        </div>
+        <div class="item">
+          <div class="ico">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M16 3v4M8 3v4M3 11h18"/></svg>
+          </div>
+          <div>
+            <h3>Instant confirmation</h3>
+            <p>Book overnight or by the hour (day use) — confirmed right away.</p>
+          </div>
+        </div>
+        <div class="item">
+          <div class="ico">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><rect x="3" y="11" width="18" height="10" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+          </div>
+          <div>
+            <h3>Secure checkout</h3>
+            <p>GCash, card, or bank transfer via PayMongo. We never touch card details.</p>
+          </div>
+        </div>
+        <div class="item">
+          <div class="ico">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M12 21s-6-5.1-6-10a6 6 0 1 1 12 0c0 4.9-6 10-6 10Z"/><circle cx="12" cy="11" r="2"/></svg>
+          </div>
+          <div>
+            <h3>Prime Malate location</h3>
+            <p>Steps from Roxas Boulevard, restaurants, and Manila's nightlife.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <p><strong>Hotel Ava</strong> · Malate, Manila, Philippines</p>
+    <p style="margin-top:6px">Scan · Tap · Stay — <a href="#" data-book-link>book with your NFC promo</a></p>
+  </div>
+</footer>
+
+<script>
+  /* ============================================================
+     CONFIG — the only part you ever need to edit.
+
+     BOOKING_BASE : your live Hotel Ava system.
+       Local dev  → http://localhost:5173/rooms
+       Production → https://hotelava.vercel.app/rooms
+
+     PROMO_CODE  : the code printed on your NFC cards.
+       The ?promo= + &src=nfc params are appended automatically.
+       Once your backend validates codes, /rooms will pre-fill it.
+     ============================================================ */
+  var BOOKING_BASE = "https://hotelava.vercel.app/rooms";
+  var PROMO_CODE = "AVANFC10";
+
+  (function () {
+    // How it works: reveal the three step cards as they scroll into view.
+    // Deliberately the first thing in this IIFE — if anything later throws,
+    // the cards are already committed to being visible.
+    var stepEls = document.querySelectorAll(".step");
+    if (stepEls.length && "IntersectionObserver" in window) {
+      var stepIo = new IntersectionObserver(function (entries) {
+        for (var e = 0; e < entries.length; e++) {
+          if (entries[e].isIntersecting) {
+            entries[e].target.classList.add("in");
+            stepIo.unobserve(entries[e].target);
+          }
+        }
+      }, { threshold: 0.2, rootMargin: "0px 0px -6% 0px" });
+      for (var k = 0; k < stepEls.length; k++) {
+        stepEls[k].style.setProperty("--d", (k * 0.1) + "s");
+        stepIo.observe(stepEls[k]);
+      }
+    } else {
+      // No IntersectionObserver (or nothing to observe): just show them.
+      for (var m = 0; m < stepEls.length; m++) stepEls[m].classList.add("in");
+    }
+
+    var codeEl = document.getElementById("promoCode");
+    var noteEl = document.getElementById("promoNote");
+    var btn = document.getElementById("copyBtn");
+
+    // Capstone disclaimer: dismissible for the current visit only (sessionStorage),
+    // so it always shows again next session — do not permanently hide it.
+    var dw = document.getElementById("disclaimerWrap");
+    var db = document.getElementById("dismissDisclaimer");
+    try {
+      if (sessionStorage.getItem("capstoneNotice") === "off") dw.classList.add("hide");
+    } catch (e) { /* storage blocked — banner just stays visible */ }
+    if (db) {
+      db.addEventListener("click", function () {
+        dw.classList.add("hide");
+        try { sessionStorage.setItem("capstoneNotice", "off"); } catch (e) { /* ignore */ }
+      });
+    }
+
+    // Show the configured code on the card.
+    codeEl.textContent = PROMO_CODE;
+
+    // Book links carry the promo + NFC source (for tracking in analytics).
+    var url = BOOKING_BASE + "?promo=" + encodeURIComponent(PROMO_CODE) + "&src=nfc";
+    var links = document.querySelectorAll("[data-book-link]");
+    for (var i = 0; i < links.length; i++) {
+      links[i].setAttribute("href", url);
+      if (!links[i].hasAttribute("aria-label")) {
+        links[i].setAttribute("aria-label", "Book at Hotel Ava with promo " + PROMO_CODE);
+      }
+    }
+
+    // Copy button: real clipboard on HTTPS, fallback for older/mobile browsers.
+    btn.addEventListener("click", function () {
+      function done() {
+        btn.textContent = "Copied!";
+        btn.classList.add("copied");
+        setTimeout(function () {
+          btn.textContent = "Copy";
+          btn.classList.remove("copied");
+        }, 1600);
+      }
+      function fallback() {
+        var ta = document.createElement("textarea");
+        ta.value = PROMO_CODE;
+        ta.setAttribute("readonly", "");
+        ta.style.position = "fixed";
+        ta.style.opacity = "0";
+        document.body.appendChild(ta);
+        ta.select();
+        try { document.execCommand("copy"); done(); }
+        catch (e) { noteEl.textContent = "Copy manually: " + PROMO_CODE; }
+        document.body.removeChild(ta);
+      }
+      if (navigator.clipboard && window.isSecureContext) {
+        navigator.clipboard.writeText(PROMO_CODE).then(done, fallback);
+      } else {
+        fallback();
+      }
+    });
+  })();
+</script>
+
+
+
+</body>
+</html>
